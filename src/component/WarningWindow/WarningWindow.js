@@ -1,23 +1,49 @@
 import React from 'react';
+import { setIsVisibleCreator, countAnswersCreator } from '../redux/warning-reducer';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 
-const warningMessage = 'Every uchecked answer is incorrect. Do you want to continue?'
+class WarningWindow extends React.Component {
+    state = { redirect: false }
 
-const WarningWindow = (props) => {
-    function clickAgree () {
-        alert('clicked Yes')
+    setRedirect = () => {
+        this.setState({ redirect: true })
     }
-    function clickDisagree () {
-        alert('clicked No')
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='/result' />
+        }
     }
-  return (
-  <div>
-      {props.warningMessage}
-      <button onClick={clickAgree}>Yes</button>
-      <button onClick={clickDisagree}>No</button>
-  </div>
-  )
+    render() {
+        return (
+            this.props.isVisible &&
+            <div>
+                {this.renderRedirect()}
+                {this.props.warningMessage}
+                <button onClick={this.setRedirect}>Yes</button>
+                <button onClick={() => this.props.setIsVisible(false)}>No</button>
+            </div>
+        )
+    }
 }
 
+const mapStateToProps = (state) => ({
+    isVisible: state.warning.isVisible,
+    warningMessage: state.warning.warningMessage
+})
 
-export default WarningWindow
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        setIsVisible: (isVisible) => {
+            dispatch(setIsVisibleCreator(isVisible));
+        },
+        countAnswers: () => {
+            dispatch(countAnswersCreator());
+        }
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WarningWindow)
 
