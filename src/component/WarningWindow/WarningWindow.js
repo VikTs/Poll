@@ -1,13 +1,16 @@
 import React from 'react';
 import { setIsVisibleCreator, countAnswersCreator } from '../redux/warning-reducer';
+import { saveAllAnswersCreator, setAgreeCreator } from '../redux/question-reducer';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 
 class WarningWindow extends React.Component {
     state = { redirect: false }
 
-    setRedirect = () => {
-        this.setState({ redirect: true })
+    setRedirect = () => {        
+        this.props.setAgree();
+        this.props.saveAllAnswersCreator(JSON.parse(localStorage.getItem('formData')))
+        this.setState({ redirect: true });
     }
     renderRedirect = () => {
         if (this.state.redirect) {
@@ -40,7 +43,11 @@ let mapDispatchToProps = (dispatch) => {
         },
         countAnswers: () => {
             dispatch(countAnswersCreator());
-        }
+        },
+        saveAllAnswersCreator: (formData) =>{
+            dispatch(saveAllAnswersCreator(formData))
+        },
+        setAgree: ()=>{dispatch(setAgreeCreator())}
 
     }
 }

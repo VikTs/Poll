@@ -2,7 +2,8 @@ const SET_IS_VISIBLE = 'SET-IS-VISIBLE';
 const COUNT_ANSWERS = 'COUNT-ANSWERS';
 
 let initialState = {
-  isVisible: true,
+  isVisible: false,
+  //redirect: false,
   warningMessage: `Every uchecked answer is incorrect. Do you want to continue?`
 }
 
@@ -18,6 +19,8 @@ const setIsVisibleReducer = (state = initialState, action) => {
       return {
         ...state
       };
+
+      
     default: return state
   }
 }
@@ -34,6 +37,7 @@ export const countAnswersCreator = () => {
     type: COUNT_ANSWERS
   }
 }
+
 
 
 export default setIsVisibleReducer

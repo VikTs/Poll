@@ -1,4 +1,5 @@
 const VALIDATE_ALL_INPUT = 'VALIDATE-ALL-INPUT';
+const SET_AGREE = 'SET-AGREE';
 
 let initialState = {
   pollQuestions: [
@@ -47,9 +48,54 @@ let initialState = {
       inputAnswer: []
     }
   ],
-  isTrue: false,
-  //countTrueAnswers: 0
+  isAgree: false,
+  countTrueAnswers: 0,
+  questionsCount: 0
 }
+
+initialState.questionsCount = initialState.pollQuestions.length
+
+
+const validateAnswerReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case VALIDATE_ALL_INPUT:      
+      let values = getValuesWithId(state)
+      let input = action.inputValue
+      validateCheckbox(input, state)
+      validateWithoutCheckbox(input, values)
+      console.log('Count: ' + count);
+      return {
+        ...state,
+        pollQuestions: state.pollQuestions.map((u, ind) => {
+          let newState = { ...u, inputValue: 'inputAnswers[ind]' }
+          return newState;
+        }),
+        countTrueAnswers: count
+      };
+      case SET_AGREE:
+        return {
+          ...state,
+          isAgree: true
+        };
+    default: return state
+  }
+}
+
+export const saveAllAnswersCreator = (inputValue) => {
+  return {
+    type: VALIDATE_ALL_INPUT,
+    inputValue
+  }
+}
+
+
+export const setAgreeCreator = () => {
+  return {
+    type: SET_AGREE
+  }
+}
+
+
 
 var count = 0;
 
@@ -91,35 +137,6 @@ let validateWithoutCheckbox = (input, values) => {
   }
 }
 
-const validateAnswerReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case VALIDATE_ALL_INPUT:      
 
-      let values = getValuesWithId(state)
-      let input = action.inputValue
-      validateCheckbox(input, state)
-      validateWithoutCheckbox(input, values)
-      console.log('Count: ' + count);
-
-      return {
-        ...state,
-        pollQuestions: state.pollQuestions.map((u, ind) => {
-          let newState = { ...u, inputValue: 'inputAnswers[ind]' }
-          return newState;
-        })
-      };
-    default: return state
-  }
-}
-
-
-
-
-export const saveAllAnswersCreator = (inputValue) => {
-  return {
-    type: VALIDATE_ALL_INPUT,
-    inputValue
-  }
-}
 
 export default validateAnswerReducer

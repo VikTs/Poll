@@ -4,12 +4,12 @@ import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux';
 import { saveAllAnswersCreator } from '../redux/question-reducer';
 import { reset } from 'redux-form';
-
-
+import { setIsVisibleCreator } from '../redux/warning-reducer';
 
 const PollForm = (props) => {
   let questions = props.pollQuestions.map((q) =>
     <p> {`${q.questionNumber}. ${q.question}`} </p>)
+    
   return (
     <form onSubmit={props.handleSubmit}>
       <Field placeholder={'Enter answer'} name={'Question1'}
@@ -40,8 +40,8 @@ const PollReduxForm = reduxForm({ form: 'poll' })(PollForm)
 
 const Poll = (props) => {
   const onSubmit = (formData) => {
-    //console.log(formData);
-    props.validateAnswer(formData)
+    localStorage.setItem('formData', JSON.stringify(formData));
+    props.setIsVisible(true)
   }
   return (<>
     <PollReduxForm {...props} onSubmit={onSubmit} />
@@ -50,8 +50,8 @@ const Poll = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  //isTrue: state.question.pollQuestions.isTrue,
-  pollQuestions: state.question.pollQuestions
+  pollQuestions: state.question.pollQuestions,
+  isAgree: state.question.isAgree
 })
 
 
@@ -60,7 +60,8 @@ let mapDispatchToProps = (dispatch) => {
     validateAnswer: (inputText) => {
       dispatch(saveAllAnswersCreator(inputText));
     },
-    cleanForm: (formName) => { dispatch(reset(formName)) }
+    cleanForm: (formName) => { dispatch(reset(formName)) },
+    setIsVisible: (isVisible) => {dispatch(setIsVisibleCreator(isVisible))}
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Poll)
