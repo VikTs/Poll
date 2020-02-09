@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import {  } from "../redux/question-reducer";
 
 const Result = (props) => {
@@ -13,10 +12,4 @@ const Result = (props) => {
 }
 
 
-const mapStateToProps = (state) => ({
-  countTrueAnswers: state.question.countTrueAnswers,
-  questionsCount: state.question.questionsCount
-})
-
-
-export default connect(mapStateToProps)(Result)
+export default Result

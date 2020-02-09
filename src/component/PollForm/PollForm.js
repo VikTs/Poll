@@ -1,10 +1,6 @@
 import React from 'react';
 import { Input, Select, Radio, Checkbox } from '../AnswerInputForms/AnswerInputForms'
 import { reduxForm, Field } from 'redux-form'
-import { connect } from 'react-redux';
-import { saveAllAnswersCreator } from '../redux/question-reducer';
-import { reset } from 'redux-form';
-import { setIsVisibleCreator } from '../redux/warning-reducer';
 
 const PollForm = (props) => {
   let questions = props.pollQuestions.map((q) =>
@@ -41,6 +37,7 @@ const PollReduxForm = reduxForm({ form: 'poll' })(PollForm)
 const Poll = (props) => {
   const onSubmit = (formData) => {
     localStorage.setItem('formData', JSON.stringify(formData));
+    alert(formData.length)
     props.setIsVisible(true)
   }
   return (<>
@@ -49,20 +46,5 @@ const Poll = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  pollQuestions: state.question.pollQuestions,
-  isAgree: state.question.isAgree
-})
-
-
-let mapDispatchToProps = (dispatch) => {
-  return {
-    validateAnswer: (inputText) => {
-      dispatch(saveAllAnswersCreator(inputText));
-    },
-    cleanForm: (formName) => { dispatch(reset(formName)) },
-    setIsVisible: (isVisible) => {dispatch(setIsVisibleCreator(isVisible))}
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Poll)
+export default Poll
 

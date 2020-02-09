@@ -1,13 +1,13 @@
 import React from 'react';
-import WarningWindow from '../WarningWindow/WarningWindow';
-import Poll from '../PollForm/PollForm';
+import WarningWindowContainer from '../WarningWindow/WarningWindowContainer';
+import PollFormContainer from '../PollForm/PollFormContainer';
 
 const PollPage = (props) => {
     return (
         <>
             <h1>Poll</h1>
-            <Poll />
-            <WarningWindow />
+            <PollFormContainer />
+            <WarningWindowContainer />
         </>
     )
 }

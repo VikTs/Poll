@@ -9,7 +9,6 @@ let initialState = {
           planet, or natural satellite, that is defined by 
           its rigid mechanical properties`, // input
       answer: 'lithosphere',
-      inputValue: '',
       questionNumber: 1,
       type: 'input'
     },
@@ -17,14 +16,12 @@ let initialState = {
       question: `The largest city in Europe is ...`, // select
       answer: 'Istanbul',
       values: ['Madrid', 'Moscow', 'Istanbul', 'London'],
-      inputValue: '',
       questionNumber: 2,
       type: 'select'
     },
     {
       question: `The capital of Scotland is ...`, // input
       answer: 'Edinburgh',
-      inputValue: '',
       questionNumber: 3,
       type: 'input'
     },
@@ -32,7 +29,6 @@ let initialState = {
       question: `The population of Ukraine is ... mln`, // radio
       answer: '42',
       values: ['38', '40', '42', '44'],
-      inputValue: '',
       questionNumber: 4,
       type: 'radio'
     },
@@ -42,7 +38,6 @@ let initialState = {
         'Hoverla', 'Brebeneskul'
       ],
       values: ['Hoverla', 'Pip Ivan', 'Petros', 'Brebeneskul'],
-      inputValue: '',
       questionNumber: 5,
       type: 'checkbox',
       inputAnswer: []
@@ -53,12 +48,14 @@ let initialState = {
   questionsCount: 0
 }
 
-initialState.questionsCount = initialState.pollQuestions.length
-
+let getQuestionsCount = () => {
+  initialState.questionsCount = initialState.pollQuestions.length
+}
+getQuestionsCount()
 
 const validateAnswerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case VALIDATE_ALL_INPUT:      
+    case VALIDATE_ALL_INPUT:
       let values = getValuesWithId(state)
       let input = action.inputValue
       validateCheckbox(input, state)
@@ -66,17 +63,13 @@ const validateAnswerReducer = (state = initialState, action) => {
       console.log('Count: ' + count);
       return {
         ...state,
-        pollQuestions: state.pollQuestions.map((u, ind) => {
-          let newState = { ...u, inputValue: 'inputAnswers[ind]' }
-          return newState;
-        }),
         countTrueAnswers: count
       };
-      case SET_AGREE:
-        return {
-          ...state,
-          isAgree: true
-        };
+    case SET_AGREE:
+      return {
+        ...state,
+        isAgree: true
+      };
     default: return state
   }
 }
@@ -88,14 +81,11 @@ export const saveAllAnswersCreator = (inputValue) => {
   }
 }
 
-
 export const setAgreeCreator = () => {
   return {
     type: SET_AGREE
   }
 }
-
-
 
 var count = 0;
 
@@ -111,16 +101,17 @@ const getValuesWithId = (state) => {
 
 let validateCheckbox = (input, state) => {
   for (let [keyInput, valueInput] of Object.entries(input)) { //for checkboxes
-    if (valueInput === true) {      
+    if (valueInput === true) {
       let newKeyAndVal = keyInput.split(/:\s*/)
       newKeyAndVal[0] = newKeyAndVal[0].replace(/[^0-9]/gim, '')
       for (let [, valueAllQuest] of Object.entries(getQuestions(state))) {
+        let inputValue = valueAllQuest.inputAnswer;
         if (valueAllQuest.questionNumber.toString() === newKeyAndVal[0]) { // if question number = 5
-          //if (valueAllQuest.inputAnswer.indexOf(newKeyAndVal[1]) === -1) {
-            valueAllQuest.inputAnswer.push(newKeyAndVal[1]);
-          //}
+          if (inputValue.indexOf(newKeyAndVal[1]) === -1) {
+            inputValue.push(newKeyAndVal[1]);
+          }
           if (valueAllQuest.answer.filter
-            (n => valueAllQuest.inputAnswer.indexOf(n) === -1).length === 0) { count++;}
+            (n => inputValue.indexOf(n) === -1).length === 0) { count++; }
         }
       }
     }
