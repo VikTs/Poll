@@ -7,33 +7,33 @@ let initialState = {
       question:
         `The rigid, outermost shell of a terrestrial-type 
           planet, or natural satellite, that is defined by 
-          its rigid mechanical properties`, // input
+          its rigid mechanical properties`, 
       answer: 'lithosphere',
       questionNumber: 1,
       type: 'input'
     },
     {
-      question: `The largest city in Europe is ...`, // select
+      question: `The largest city in Europe is ...`, 
       answer: 'Istanbul',
       values: ['Madrid', 'Moscow', 'Istanbul', 'London'],
       questionNumber: 2,
       type: 'select'
     },
     {
-      question: `The capital of Scotland is ...`, // input
+      question: `The capital of Scotland is ...`,
       answer: 'Edinburgh',
       questionNumber: 3,
       type: 'input'
     },
     {
-      question: `The population of Ukraine is ... mln`, // radio
+      question: `The population of Ukraine is ... mln`,
       answer: '42',
       values: ['38', '40', '42', '44'],
       questionNumber: 4,
       type: 'radio'
     },
     {
-      question: `Choose 2 highest mountains in Ukraine`, //checkbox
+      question: `Choose 2 highest mountains in Ukraine`,
       answer: [
         'Hoverla', 'Brebeneskul'
       ],
@@ -60,7 +60,6 @@ const validateAnswerReducer = (state = initialState, action) => {
       let input = action.inputValue
       validateCheckbox(input, state)
       validateWithoutCheckbox(input, values)
-      console.log('Count: ' + count);
       return {
         ...state,
         countTrueAnswers: count
@@ -100,13 +99,13 @@ const getValuesWithId = (state) => {
 }
 
 let validateCheckbox = (input, state) => {
-  for (let [keyInput, valueInput] of Object.entries(input)) { //for checkboxes
+  for (let [keyInput, valueInput] of Object.entries(input)) { 
     if (valueInput === true) {
       let newKeyAndVal = keyInput.split(/:\s*/)
       newKeyAndVal[0] = newKeyAndVal[0].replace(/[^0-9]/gim, '')
       for (let [, valueAllQuest] of Object.entries(getQuestions(state))) {
         let inputValue = valueAllQuest.inputAnswer;
-        if (valueAllQuest.questionNumber.toString() === newKeyAndVal[0]) { // if question number = 5
+        if (valueAllQuest.questionNumber.toString() === newKeyAndVal[0]) { 
           if (inputValue.indexOf(newKeyAndVal[1]) === -1) {
             inputValue.push(newKeyAndVal[1]);
           }
@@ -127,7 +126,5 @@ let validateWithoutCheckbox = (input, values) => {
     }
   }
 }
-
-
 
 export default validateAnswerReducer

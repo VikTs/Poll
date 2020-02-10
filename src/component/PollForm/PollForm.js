@@ -3,24 +3,18 @@ import { Input, Select, Radio, Checkbox } from '../AnswerInputForms/AnswerInputF
 import { reduxForm, Field } from 'redux-form'
 import style from './PollForm.module.css'
 import { required } from '../validators/validators'
+import { useHistory } from 'react-router-dom';
 
 const formStartName = 'Question'
-
 const PollForm = (props) => {
   let questions = props.pollQuestions.map((q) =>
     <p> {`${q.questionNumber}. ${q.question}`} </p>)
-    
+
   return (
 
-   <form onSubmit={props.handleSubmit}>
-
-{/* //   <form onSubmit={props.handleSubmit(values => {
-//     alert('handle')
-//     // return new Promise(resolve => resolve()).then(() => {})
-// })}> */}
-
+    <form onSubmit={props.handleSubmit}>
       <Field placeholder={'Enter answer'} name={`${formStartName}1`}
-      validate={[required]}
+        validate={[required]}
         question={questions[0]}
         component={Input} />
       <Field name={`${formStartName}2`}
@@ -38,31 +32,39 @@ const PollForm = (props) => {
         question={questions[4]}
         values={props.pollQuestions[4].values}
         component={Checkbox} />
-      <button type='submit' className={style.submit}> Send answers</button>
+      <button type='submit' 
+      className={style.submit}> Send answers</button>
       <button className={style.clean} onClick={
-        function(e) {props.cleanForm('poll'); e.preventDefault();} 
-        }> Clean</button>
+        function (e) { props.cleanForm('poll'); e.preventDefault(); }
+      }> Clean</button>
     </form>
   )
 }
 
-const PollReduxForm = reduxForm({ form: 'poll',touchOnBlur: false,
-shouldValidate: params => {
-  if (!params.props.submitting) {
+const PollReduxForm = reduxForm({
+  form: 'poll', touchOnBlur: false,
+  shouldValidate: params => {
+    if (!params.props.submitting) {
       return false;
+    }
+    return true;
   }
-  return true;
-} })(PollForm)
+})(PollForm)
 
 const Poll = (props) => {
+  const history = useHistory()
   const onSubmit = (formData) => {
     localStorage.setItem('formData', JSON.stringify(formData));
-
-    let newQuestions = Object.keys(formData)
-    .map(e=>e.match(/\d+/)[0])
-    .filter((value, index, self) => self.indexOf(value.trim()) === index );
-    console.log(newQuestions)
-    props.setIsVisible(true);
+    let countAnsweredQuestion = Object.keys(formData)
+      .map(e => e.match(/\d+/)[0])
+      .filter((value, index, self) => self.indexOf(value.trim()) === index);
+    if (countAnsweredQuestion.length > props.questionsCount) {
+      props.setIsVisible(true);
+    } else {
+      props.validateAnswer(JSON.parse(localStorage.getItem('formData')));
+      props.cleanForm('poll')
+      history.push('/result')
+    }
 
   }
   return (<>

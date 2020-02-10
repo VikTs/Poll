@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { required } from '../validators/validators'
 import style from './AnswerInput.module.css'
 
 const FormsControl = ({ input, meta, ...props }) => {
@@ -48,13 +47,7 @@ export const Checkbox = (props) => {
   const { input } = props;
   let parrentName = input.name;
   let checkboxValues = props.values.map((e, ind) => <React.Fragment key={ind}>
-    <Field
-      name={`${parrentName}: ${e}`}
-      component="input"
-      type="checkbox"
-      label={e}
-      // onChange={value => console.log(value.target.value)}
-    />
+    <Field name={`${parrentName}: ${e}`} component="input" type="checkbox"/>
     <label htmlFor={e}> {e} </label><br />
   </React.Fragment>
   )

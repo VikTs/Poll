@@ -6,7 +6,8 @@ import Poll from './PollForm';
 
 const mapStateToProps = (state) => ({
   pollQuestions: state.question.pollQuestions,
-  isAgree: state.question.isAgree
+  isAgree: state.question.isAgree,
+  questionsCount: state.question.questionsCount
 })
 
 

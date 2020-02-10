@@ -2,9 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 import style from './WarningWindow.module.css'
 
-
-///ЕСЛИ ПОЛЕ ПУСТОЕ, ТО ПОКАЗАТЬ ВАРНИНГ
-
 class WarningWindow extends React.Component {
     state = { redirect: false }
 
