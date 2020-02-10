@@ -1,0 +1,41 @@
+* {
+    font-family: 'IBM Plex Serif', serif;
+}
+
+input[type="text"] {
+    width: 40%;
+    background-color: inherit;
+    border: none;
+    border-bottom: 1px solid white;
+}
+
+input[type="text"]:focus {
+    border-bottom: 1px rgb(3, 216, 3);
+}
+
+input::placeholder {
+    color: white;
+}
+
+select {
+    padding: 7px;
+    border-radius: 5px;
+}
+
+
+
+.formControl.error input,
+.formControl.error textarea {
+    border-bottom: solid red 1px;
+}
+
+.formControl.error span {
+    color: red;
+}
+
+.formSummaryError {
+    border-bottom: solid 1px red;
+    padding: 5px;
+    color: red;
+    width: 100px;
+}

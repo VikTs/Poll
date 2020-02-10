@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom'
+import style from './WarningWindow.module.css'
 
 
 ///ЕСЛИ ПОЛЕ ПУСТОЕ, ТО ПОКАЗАТЬ ВАРНИНГ
@@ -20,11 +21,13 @@ class WarningWindow extends React.Component {
     render() {
         return (
             this.props.isVisible &&
-            <div>
+            <div className={style.moduleWindow}>
                 {this.renderRedirect()}
-                {this.props.warningMessage}
-                <button onClick={this.setRedirect}>Yes</button>
-                <button onClick={() => this.props.setIsVisible(false)}>No</button>
+                <div>{this.props.warningMessage}</div>
+                <div>
+                    <button className={style.agree} onClick={this.setRedirect}>Yes</button>
+                    <button className={style.disagree} onClick={() => this.props.setIsVisible(false)}>No</button>
+                </div>
             </div>
         )
     }

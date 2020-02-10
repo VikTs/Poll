@@ -1,0 +1,17 @@
+.resultBody {
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 10px;
+}
+
+.result {
+    text-align: center;
+}
