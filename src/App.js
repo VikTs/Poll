@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 import PollPage from './component/PollPage/PollPage';
 import ResultContainer from './component/Result/ResultContainer';
-import { Redirect } from 'react-router-dom'
+import './App.css';
 
 function App() {
   return (
@@ -16,6 +16,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;

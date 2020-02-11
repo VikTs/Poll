@@ -15,3 +15,14 @@
 .result {
     text-align: center;
 }
+
+.rightAnswers {
+    border: solid white 1px;
+    padding: 10px 10%;
+    border-radius: 3px;
+}
+
+.rightAnswersHeader {
+    font-size: 18px;
+    text-decoration: underline;
+}

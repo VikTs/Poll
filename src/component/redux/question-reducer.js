@@ -1,3 +1,5 @@
+import { Input, Select, Radio, Checkbox } from '../AnswerInputForms/AnswerInputForms'
+
 const VALIDATE_ALL_INPUT = 'VALIDATE-ALL-INPUT';
 const SET_AGREE = 'SET-AGREE';
 
@@ -10,27 +12,27 @@ let initialState = {
           its rigid mechanical properties`, 
       answer: 'lithosphere',
       questionNumber: 1,
-      type: 'input'
+      type: Input
     },
     {
       question: `The largest city in Europe is ...`, 
       answer: 'Istanbul',
       values: ['Madrid', 'Moscow', 'Istanbul', 'London'],
       questionNumber: 2,
-      type: 'select'
+      type: Select
     },
     {
       question: `The capital of Scotland is ...`,
       answer: 'Edinburgh',
       questionNumber: 3,
-      type: 'input'
+      type: Input
     },
     {
       question: `The population of Ukraine is ... mln`,
       answer: '42',
       values: ['38', '40', '42', '44'],
       questionNumber: 4,
-      type: 'radio'
+      type: Radio
     },
     {
       question: `Choose 2 highest mountains in Ukraine`,
@@ -39,7 +41,7 @@ let initialState = {
       ],
       values: ['Hoverla', 'Pip Ivan', 'Petros', 'Brebeneskul'],
       questionNumber: 5,
-      type: 'checkbox',
+      type: Checkbox,
       inputAnswer: []
     }
   ],
@@ -53,13 +55,14 @@ let getQuestionsCount = () => {
 }
 getQuestionsCount()
 
+
 const validateAnswerReducer = (state = initialState, action) => {
   switch (action.type) {
     case VALIDATE_ALL_INPUT:
       let values = getValuesWithId(state)
       let input = action.inputValue
       validateCheckbox(input, state)
-      validateWithoutCheckbox(input, values)
+      validateWithoutCheckbox(input, values);
       return {
         ...state,
         countTrueAnswers: count
@@ -87,12 +90,11 @@ export const setAgreeCreator = () => {
 }
 
 var count = 0;
-
 const getQuestions = (state) => {
   return Object.values(state.pollQuestions)
 }
 
-const getValuesWithId = (state) => {
+export const getValuesWithId = (state) => {
   let objectValues = {};
   getQuestions(state).forEach((el) => objectValues["Question" + el.questionNumber] = el.answer)
   return objectValues
@@ -103,9 +105,10 @@ let validateCheckbox = (input, state) => {
     if (valueInput === true) {
       let newKeyAndVal = keyInput.split(/:\s*/)
       newKeyAndVal[0] = newKeyAndVal[0].replace(/[^0-9]/gim, '')
-      for (let [, valueAllQuest] of Object.entries(getQuestions(state))) {
+      let questionsInfo = Object.entries(getQuestions(state));
+      for (let [, valueAllQuest] of questionsInfo) {
         let inputValue = valueAllQuest.inputAnswer;
-        if (valueAllQuest.questionNumber.toString() === newKeyAndVal[0]) { 
+        if (valueAllQuest.questionNumber.toString() === newKeyAndVal[0]) {
           if (inputValue.indexOf(newKeyAndVal[1]) === -1) {
             inputValue.push(newKeyAndVal[1]);
           }

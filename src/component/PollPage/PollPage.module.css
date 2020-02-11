@@ -1,14 +1,11 @@
 .pollBody {
-    width: 80%;
-    margin-left: 10%;
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin: 100px 10%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: dodgerblue;
     color: white;
-    padding: 0 50px;
+    padding: 0 10%;
     border-radius: 50px;
 }

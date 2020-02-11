@@ -1,15 +1,14 @@
 import { connect } from 'react-redux';
-import { saveAllAnswersCreator } from '../redux/question-reducer';
 import { reset } from 'redux-form';
-import { setIsVisibleCreator } from '../redux/warning-reducer';
 import Poll from './PollForm';
+import { saveAllAnswersCreator } from '../redux/question-reducer';
+import { setIsVisibleCreator } from '../redux/warning-reducer';
 
 const mapStateToProps = (state) => ({
   pollQuestions: state.question.pollQuestions,
   isAgree: state.question.isAgree,
   questionsCount: state.question.questionsCount
 })
-
 
 let mapDispatchToProps = (dispatch) => {
   return {
@@ -20,5 +19,5 @@ let mapDispatchToProps = (dispatch) => {
     setIsVisible: (isVisible) => {dispatch(setIsVisibleCreator(isVisible))}
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Poll)
 
+export default connect(mapStateToProps, mapDispatchToProps)(Poll)

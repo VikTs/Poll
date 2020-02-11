@@ -1,24 +1,14 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import style from './AnswerInput.module.css'
+import {} from './AnswerInput.module.css'
 
 const FormsControl = ({ input, meta, ...props }) => {
-  const hasError = meta.touched && meta.error
   return (
-    <div className={style.formControl + " " + (hasError ? style.error : "")}>
+    <div>
       {props.question}
-      <div>
-        {props.children}
-      </div>
-      {hasError && <span> {`Error: ${meta.error}`} </span>}
+      {props.children}
     </div>
   )
-  // return (
-  //   <div>
-  //     {props.question}
-  //     {props.children}
-  //   </div>
-  // )
 }
 
 export const Input = (props) => {
@@ -37,11 +27,10 @@ export const Radio = (props) => {
   const { input, meta, ...restProps } = props;
   let radioValues = props.values.map((e, ind) =>
     <React.Fragment key={ind}>
-      <input type="radio" name="population" {...restProps} {...input} value={e} /> {e} <br />
+      <input type="radio" name={input.name} {...restProps} {...input} value={e} /> {e} <br />
     </React.Fragment>)
   return (<FormsControl {...props}> {radioValues} </FormsControl>)
 }
-
 
 export const Checkbox = (props) => {
   const { input } = props;

@@ -1,7 +1,9 @@
 .moduleWindow {
-    position: absolute;
+    position: fixed;
+    text-align: center;
     width: 45%;
-    height: 200px;
+    padding: 10px;
+    height: 150px;
     background-color: white;
     color: black;
     display: flex;
@@ -9,6 +11,12 @@
     align-items: center;
     flex-direction: column;
     border-radius: 5px;
+    margin-top: -100px;
+}
+
+button.agree,
+button.disagree {
+    width: 50px;
 }
 
 .agree {
